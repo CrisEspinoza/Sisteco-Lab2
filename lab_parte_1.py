@@ -10,7 +10,7 @@ def aplicarClave(bloqueDerecho,key):
 	##print("El bloque es: " + bloqueDerecho)
 	##print("El bloque pasado a entero es: " + str(int(bloqueDerecho,2)))
 
-	resul = key % len(bloqueDerecho)
+	resul = (key * (len(bloqueDerecho)+key)) % len(bloqueDerecho)
 	#print(str(int(bloqueDerecho,2) ))
 	#print("Resul es: " + str(resul))
 
@@ -147,7 +147,7 @@ def mezclar(bloques,keyNumero,cantXBloque,rondas):
 
 				print("La clave es: " + str(keyNumero) + "\n")
 				derechoAux = aplicarClave(derecho,keyNumero)
-				keyNumero = keyNumero + (len(bloque)*cantXBloque) + (ronda+1)
+				keyNumero = keyNumero + (ronda+1)
 				#print("Despues de aplicar la llave queda como: ")
 				derechoAuxBin = numToBin(derechoAux,len(derecho))
 				#print(derecho + " - Despues: " + str(derechoAux) + " - En binario es: " + derechoAuxBin)
@@ -243,7 +243,7 @@ def mezclar1(bloques,keyNumero,cantXBloque,rondas):
 
 				print("La clave es: " + str(keyNumero) )
 				derechoAux = aplicarClave(derecho,keyNumero)
-				keyNumero = keyNumero - (len(bloque)*cantXBloque) + (ronda+1)
+				keyNumero = keyNumero - (rondas - (ronda+1))
 				#print("Despues de aplicar la llave queda como: ")
 				derechoAuxBin = numToBin(derechoAux,len(derecho))
 				#print(derecho + " - Despues: " + str(derechoAux) + " - En binario es: " + derechoAuxBin)
@@ -337,7 +337,7 @@ def menu(cantXBloque,key,cantRondas,aux,aux1):
 
 	return palabra
 
-a = menu(64,357,16,"hola soy el cristian jajajajajajajajajajajaja",0)
+a = menu(4,357,4,"hola soy el cristian jajajajajajajajajajajaja",0)
 print(a.replace(' ',''))
 
 #print("\n")
@@ -346,5 +346,5 @@ print("Ahora vamos a decodificar *" + a + "*")
 print("\n")
 #print("\n")
 
-b = menu(64,clave,16,a,1)
+b = menu(4,clave,4,a,1)
 print(b)
