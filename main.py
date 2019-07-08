@@ -138,6 +138,25 @@ def separador():
 	print("Ahora se esta realizando la desincriptacion del texto ... .. . ")
 	print("\n")
 
+# Entrada:
+# Procedimiento:
+# Salida: 
+
+def validarParametros(palabra,cantXBloque,rondas,key):
+
+	if (palabra.isalpha()):
+		if(str(cantXBloque).isdigit()):
+			if(str(rondas).isdigit()):
+				if(str(key).isdigit()):
+					return True
+				else:
+					return False
+			else:
+				return False
+		else: 
+			return False
+	else:
+		return False
 
 # Entrada:
 # Procedimiento:
@@ -146,13 +165,55 @@ def separador():
 def pedirParametro():
 
 	os.system ("clear") 
-	palabra = input("Ingrese texto a inscriptar: ")
-	cantXBloque = int(input("Ingrese la cantidad de bits por bloque (Considerar que debe ser multiplo de 2): "))
-	rondas = int(input("Ingrese la cantidad de rondas que desea realizar: "))
-	key = int(input("Ingrese la clave con la que desea trabajar: "))
+	opcion = True
+	while opcion:
 
-	return palabra,cantXBloque,rondas,key
+		palabra = input("Ingrese texto a inscriptar: ")
+		cantXBloque = input("Ingrese la cantidad de bits por bloque (Considerar que debe ser multiplo de 2): ")
+		rondas = input("Ingrese la cantidad de rondas que desea realizar: ")
+		key = input("Ingrese la clave con la que desea trabajar (Debe ser numerica): ")
 
+		if (validarParametros(palabra,cantXBloque,rondas,key)):
+			opcion = False
+			print("Parametros validos ... .. . \n ")
+		else:
+			print("Parametros no validos, reingresar parametros ... .. . \n ")
+
+	return palabra,int(cantXBloque),int(rondas),int(key)
+
+# Entrada:
+# Procedimiento:
+# Salida: 
+	
+def limitarDecimal(x):
+
+	contador = 0
+	for num in x:
+		x[contador] = round(num,5)
+		contador = contador + 1
+	return x
+
+# Entrada:
+# Procedimiento:
+# Salida: 
+
+def escribirSalida(palabra, palabraIncriptada,palabraDesincriptado,time1,time2):
+
+	nombre = input("\n Ingrese el nombre del archivo a escribir (Sin extensión): ")
+
+	archivo = open("./Salida/" + nombre + ".txt" ,'a')
+
+	archivo.write("*********************************************\n")
+	archivo.write("\n")
+	archivo.write("La palabra a inscriptar es: " + palabra + "\n")
+	archivo.write("\n")
+	archivo.write("La palabra inscriptada es: " + palabraIncriptada + "\n")
+	archivo.write("\n")
+	archivo.write("La palabra al desincriptar es: " + palabraDesincriptado +" \n")
+	archivo.write("\n")
+	archivo.write("*********************************************\n")
+
+	print("\n Archivo creado con exito \n ")
 
 	# Funcion de incriptación
 
@@ -273,7 +334,168 @@ def analisisDeTiempo():
 	tiempos2I = []
 	tiempos2D = []
 
-	# Variando Tamaño de palabra
+	# Variando tamaño de bloque (Performas)
+
+	start_time = time()
+	palabraIncriptada = feistel(4,357,(palabra*50),16,0)
+	elapsed_time = time() - start_time
+	tiempos1I.append(elapsed_time)
+
+	start_time = time()
+	palabraIncriptada = feistel(4,clave,palabraIncriptada,16,0)
+	elapsed_time = time() - start_time
+	tiempos1D.append(elapsed_time)
+
+	#
+
+	start_time = time()
+	palabraIncriptada = feistel(8,357,(palabra*50),16,0)
+	elapsed_time = time() - start_time
+	tiempos1I.append(elapsed_time)
+
+	start_time = time()
+	palabraIncriptada = feistel(8,clave,palabraIncriptada,16,0)
+	elapsed_time = time() - start_time
+	tiempos1D.append(elapsed_time)
+
+	#
+
+	start_time = time()
+	palabraIncriptada = feistel(16,357,(palabra*50),16,0)
+	elapsed_time = time() - start_time
+	tiempos1I.append(elapsed_time)
+	
+	start_time = time()
+	palabraIncriptada = feistel(16,clave,palabraIncriptada,16,0)
+	elapsed_time = time() - start_time
+	tiempos1D.append(elapsed_time)
+
+	#
+
+	start_time = time()
+	palabraIncriptada = feistel(32,357,(palabra*50),16,0)
+	elapsed_time = time() - start_time
+	tiempos1I.append(elapsed_time)
+
+	start_time = time()
+	palabraIncriptada = feistel(32,clave,palabraIncriptada,16,0)
+	elapsed_time = time() - start_time
+	tiempos1D.append(elapsed_time)
+
+	#
+
+	start_time = time()
+	palabraIncriptada = feistel(64,357,(palabra*50),16,0)
+	elapsed_time = time() - start_time
+	tiempos1I.append(elapsed_time)
+
+	start_time = time()
+	palabraIncriptada = feistel(64,clave,palabraIncriptada,16,0)
+	elapsed_time = time() - start_time
+	tiempos1D.append(elapsed_time)
+
+
+	# Creación de grafico 
+	plt.figure(figsize=(8.0, 5.0))
+	plt.subplot(211)
+	p1 = plt.plot(linewidth = 2)
+	graficoTiempo(" Tiempo v/s Bits por Bloque - (Inscriptación)",[4,8,16,32,64],tiempos1I,"Bits por bloques","Tiempo")
+	plt.subplot(212)
+	p2 = plt.plot(linewidth = 2)
+	graficoTiempo(" Tiempo v/s Bits por Bloque - (Desincriptación)",[4,8,16,32,64],tiempos1D,"Bits por bloques","Tiempo")
+	plt.tight_layout()
+	plt.savefig(os.getcwd() + "/Salida/Tiempo_vs_Bits_por_Bloque.png")
+	plt.show()
+
+	# Variando cantidad de rondas (Difusión / Confusión)
+	
+	start_time = time()
+	palabraIncriptada = feistel(8,357,(palabra*50),1,0)
+	elapsed_time = time() - start_time
+	tiempos2I.append(elapsed_time)
+
+	start_time = time()
+	palabraIncriptada = feistel(8,clave,palabraIncriptada,1,0)
+	elapsed_time = time() - start_time
+	tiempos2D.append(elapsed_time)
+
+	#
+
+	start_time = time()
+	palabraIncriptada = feistel(8,357,(palabra*50),8,0)
+	elapsed_time = time() - start_time
+	tiempos2I.append(elapsed_time)
+
+	start_time = time()
+	palabraIncriptada = feistel(8,clave,palabraIncriptada,8,0)
+	elapsed_time = time() - start_time
+	tiempos2D.append(elapsed_time)
+
+	#
+
+	start_time = time()
+	palabraIncriptada = feistel(8,357,(palabra*50),16,0)
+	elapsed_time = time() - start_time
+	tiempos2I.append(elapsed_time)
+
+	start_time = time()
+	palabraIncriptada = feistel(8,clave,palabraIncriptada,16,0)
+	elapsed_time = time() - start_time
+	tiempos2D.append(elapsed_time)
+
+	#
+
+	start_time = time()
+	palabraIncriptada = feistel(8,357,(palabra*50),32,0)
+	elapsed_time = time() - start_time
+	tiempos2I.append(elapsed_time)
+
+	start_time = time()
+	palabraIncriptada = feistel(8,clave,palabraIncriptada,32,0)
+	elapsed_time = time() - start_time
+	tiempos2D.append(elapsed_time)
+
+	#
+
+	start_time = time()
+	palabraIncriptada = feistel(8,357,(palabra*50),64,0)
+	elapsed_time = time() - start_time
+	tiempos2I.append(elapsed_time)
+
+	start_time = time()
+	palabraIncriptada = feistel(8,clave,palabraIncriptada,64,0)
+	elapsed_time = time() - start_time
+	tiempos2D.append(elapsed_time)
+
+	# Creación de grafico 
+	plt.figure(2)
+	plt.subplot(211)
+	graficoTiempo(" Tiempo v/s Cantidad de rondas",[1,8,16,32,64],tiempos2I,"Cantidad de rondas","Tiempo")
+	plt.subplot(212)
+	graficoTiempo(" Tiempo v/s Cantidad de rondas",[1,8,16,32,64],tiempos2D,"Cantidad de rondas","Tiempo")
+	plt.tight_layout()
+	plt.savefig(os.getcwd() + "/Salida/Tiempo_vs_Cantidad_de_rondas.png")
+	plt.show()
+
+def graficoTiempo(titulo,x,y,xlabel,ylabel):
+
+	y = limitarDecimal(y)
+	plt.title(titulo, fontsize = 12, color = 'blue')
+	plt.xlabel(xlabel, color = 'red')
+	plt.ylabel(ylabel, color = 'orange')
+	plt.plot(x,y,'o-')
+	plt.xticks(x,rotation=20)
+	plt.yticks(y,rotation=20)
+
+def analisisDeAvalancha():
+
+	palabra = 'abcde'
+	tiemposI = []
+	tiemposD = []
+	tiempos1I = []
+	tiempos1D = []
+
+	# Variando Tamaño de palabra (Avalancha)
 
 	start_time = time()
 	palabraIncriptada = feistel(8,357,(palabra*10),16,0)
@@ -344,28 +566,16 @@ def analisisDeTiempo():
 	#print("La palabra inscriptada es: " + palabraIncriptada + " La palabra desincriptada es: " + palabraDesincriptada + "\n")
 
 	# Creación de grafico 
-	plt.figure(1)
+	plt.figure(3)
 	plt.subplot(211)
 	graficoTiempo(" Tiempo v/s Largo de la palabra (Inscriptación)",[10,25,50,75,100],tiemposI,"Largo Palabra", "Tiempo")
 	plt.subplot(212)
 	graficoTiempo(" Tiempo v/s Largo de la palabra (Desincriptación)",[10,25,50,75,100],tiemposD,"Largo Palabra", "Tiempo")
 	plt.tight_layout()
-	#plt.savefig(os.getcwd() + "/Salida/" + title + "_" + str(low_cutoff) + "_" + str(order) + ".png")
+	plt.savefig(os.getcwd() + "/Salida/Tiempo_vs_Largo_palabra.png")
 	plt.show()
 
-	# Variando tamaño de bloque
-
-	start_time = time()
-	palabraIncriptada = feistel(4,357,(palabra*50),16,0)
-	elapsed_time = time() - start_time
-	tiempos1I.append(elapsed_time)
-
-	start_time = time()
-	palabraIncriptada = feistel(4,clave,palabraIncriptada,16,0)
-	elapsed_time = time() - start_time
-	tiempos1D.append(elapsed_time)
-
-	#
+	# Variando Tamaño de clave (Avalancha)
 
 	start_time = time()
 	palabraIncriptada = feistel(8,357,(palabra*50),16,0)
@@ -373,139 +583,79 @@ def analisisDeTiempo():
 	tiempos1I.append(elapsed_time)
 
 	start_time = time()
-	palabraIncriptada = feistel(8,clave,palabraIncriptada,16,0)
+	palabraDesincriptada = feistel(8,clave,palabraIncriptada,16,0)
 	elapsed_time = time() - start_time
 	tiempos1D.append(elapsed_time)
+
+	#print("La palabra inscriptada es: " + palabraIncriptada + " La palabra desincriptada es: " + palabraDesincriptada + "\n")
 
 	#
 
 	start_time = time()
-	palabraIncriptada = feistel(16,357,(palabra*50),16,0)
+	palabraIncriptada = feistel(8,35744,(palabra*50),16,0)
 	elapsed_time = time() - start_time
 	tiempos1I.append(elapsed_time)
-	
+
 	start_time = time()
-	palabraIncriptada = feistel(16,clave,palabraIncriptada,16,0)
+	palabraDesincriptada = feistel(8,clave,palabraIncriptada,16,0)
 	elapsed_time = time() - start_time
 	tiempos1D.append(elapsed_time)
+
+	#print("La palabra inscriptada es: " + palabraIncriptada + " La palabra desincriptada es: " + palabraDesincriptada + "\n")
 
 	#
 
 	start_time = time()
-	palabraIncriptada = feistel(32,357,(palabra*50),16,0)
+	palabraIncriptada = feistel(8,3574444,(palabra*50),16,0)
 	elapsed_time = time() - start_time
 	tiempos1I.append(elapsed_time)
 
 	start_time = time()
-	palabraIncriptada = feistel(32,clave,palabraIncriptada,16,0)
+	palabraDesincriptada = feistel(8,clave,palabraIncriptada,16,0)
 	elapsed_time = time() - start_time
 	tiempos1D.append(elapsed_time)
+
+	#print("La palabra inscriptada es: " + palabraIncriptada + " La palabra desincriptada es: " + palabraDesincriptada + "\n")
 
 	#
 
 	start_time = time()
-	palabraIncriptada = feistel(64,357,(palabra*50),16,0)
+	palabraIncriptada = feistel(8,357444444,(palabra*50),16,0)
 	elapsed_time = time() - start_time
 	tiempos1I.append(elapsed_time)
 
 	start_time = time()
-	palabraIncriptada = feistel(64,clave,palabraIncriptada,16,0)
+	palabraDesincriptada = feistel(8,clave,palabraIncriptada,16,0)
 	elapsed_time = time() - start_time
 	tiempos1D.append(elapsed_time)
 
+	#print("La palabra inscriptada es: " + palabraIncriptada + " La palabra desincriptada es: " + palabraDesincriptada + "\n")
+
+	#
+
+	start_time = time()
+	palabraIncriptada = feistel(8,35744444444,(palabra*50),16,0)
+	elapsed_time = time() - start_time
+	tiempos1I.append(elapsed_time)
+
+	start_time = time()
+	palabraDesincriptada = feistel(8,clave,palabraIncriptada,16,0)
+	elapsed_time = time() - start_time
+	tiempos1D.append(elapsed_time)
+
+	#print("La palabra inscriptada es: " + palabraIncriptada + " La palabra desincriptada es: " + palabraDesincriptada + "\n")
 
 	# Creación de grafico 
-	plt.figure(2)
+	plt.figure(4)
 	plt.subplot(211)
-	graficoTiempo(" Tiempo v/s Bits por Bloque - (Inscriptación)",[4,8,16,32,64],tiempos1I,"Bits por bloques","Tiempo")
+	graficoTiempo(" Tiempo v/s Largo de la clave (Inscriptación)",[3,5,7,9,11],tiemposI,"Largo clave", "Tiempo")
 	plt.subplot(212)
-	graficoTiempo(" Tiempo v/s Bits por Bloque - (Desincriptación)",[4,8,16,32,64],tiempos1D,"Bits por bloques","Tiempo")
+	graficoTiempo(" Tiempo v/s Largo de la clave (Desincriptación)",[3,5,7,9,11],tiemposD,"Largo clave", "Tiempo")
 	plt.tight_layout()
-	#plt.savefig(os.getcwd() + "/Salida/" + title + "_" + str(low_cutoff) + "_" + str(order) + ".png")
-	plt.show()
-
-	# Variando cantidad de rondas
-	
-	start_time = time()
-	palabraIncriptada = feistel(8,357,(palabra*50),1,0)
-	elapsed_time = time() - start_time
-	tiempos2I.append(elapsed_time)
-
-	start_time = time()
-	palabraIncriptada = feistel(8,clave,palabraIncriptada,1,0)
-	elapsed_time = time() - start_time
-	tiempos2D.append(elapsed_time)
-
-	#
-
-	start_time = time()
-	palabraIncriptada = feistel(8,357,(palabra*50),8,0)
-	elapsed_time = time() - start_time
-	tiempos2I.append(elapsed_time)
-
-	start_time = time()
-	palabraIncriptada = feistel(8,clave,palabraIncriptada,8,0)
-	elapsed_time = time() - start_time
-	tiempos2D.append(elapsed_time)
-
-	#
-
-	start_time = time()
-	palabraIncriptada = feistel(8,357,(palabra*50),16,0)
-	elapsed_time = time() - start_time
-	tiempos2I.append(elapsed_time)
-
-	start_time = time()
-	palabraIncriptada = feistel(8,clave,palabraIncriptada,16,0)
-	elapsed_time = time() - start_time
-	tiempos2D.append(elapsed_time)
-
-	#
-
-	start_time = time()
-	palabraIncriptada = feistel(8,357,(palabra*50),32,0)
-	elapsed_time = time() - start_time
-	tiempos2I.append(elapsed_time)
-
-	start_time = time()
-	palabraIncriptada = feistel(8,clave,palabraIncriptada,32,0)
-	elapsed_time = time() - start_time
-	tiempos2D.append(elapsed_time)
-
-	#
-
-	start_time = time()
-	palabraIncriptada = feistel(8,357,(palabra*50),64,0)
-	elapsed_time = time() - start_time
-	tiempos2I.append(elapsed_time)
-
-	start_time = time()
-	palabraIncriptada = feistel(8,clave,palabraIncriptada,64,0)
-	elapsed_time = time() - start_time
-	tiempos2D.append(elapsed_time)
-
-	# Creación de grafico 
-	plt.figure(3)
-	plt.subplot(211)
-	graficoTiempo(" Tiempo v/s Cantidad de rondas",[1,8,16,32,64],tiempos2I,"Cantidad de rondas","Tiempo")
-	plt.subplot(212)
-	graficoTiempo(" Tiempo v/s Cantidad de rondas",[1,8,16,32,64],tiempos2D,"Cantidad de rondas","Tiempo")
-	plt.tight_layout()
-	#plt.savefig(os.getcwd() + "/Salida/" + title + "_" + str(low_cutoff) + "_" + str(order) + ".png")
+	plt.savefig(os.getcwd() + "/Salida/Tiempo_vs_Largo_clave.png")
 	plt.show()
 
 	return 
-
-def graficoTiempo(titulo,x,y,xlabel,ylabel):
-
-    plt.title(titulo, fontsize = 12, color = 'blue')
-    plt.xlabel(xlabel, color = 'red')
-    plt.ylabel(ylabel, color = 'orange')
-    plt.plot(x,y,'o-')
-    plt.xticks(x)
-    plt.yticks(y)
-    #plt.show()
-    #plt.savefig( os.getcwd() + "/Salida/" + title + "_" + str(low_cutoff) + "_" + str(order) + ".png")
 
 	# Menu: 
 
@@ -534,10 +684,10 @@ def menu():
 
 			global palabraIncriptada
 
-			start_time = time()
+			start_time1 = time()
 			palabraIncriptada = feistel(cantXBloque,key,palabra,rondas,0)
-			elapsed_time = time() - start_time
-			print("Tiempo de ejecucion de inscriptacion es: %0.10f" %elapsed_time)
+			elapsed_time1 = time() - start_time1
+			print("Tiempo de ejecucion de inscriptacion es: %0.10f" %elapsed_time1)
 
 			palabraIncriptadaOut = palabraIncriptada.replace(' ','')
 			print("La palabra inscriptada es: " + palabraIncriptadaOut + "\n")
@@ -547,14 +697,23 @@ def menu():
 
 			global palabraDesincriptado
 
-			start_time = time()
+			start_time2 = time()
 			palabraDesincriptado = feistel(cantXBloque,clave,palabraIncriptada,rondas,1)
-			elapsed_time = time() - start_time
-			print("Tiempo de ejecucion de desincriptación es: %0.10f" %elapsed_time)
+			elapsed_time2 = time() - start_time2
+			print("Tiempo de ejecucion de desincriptación es: %0.10f" %elapsed_time2)
 
-			print("La palabra desincriptada es: " + palabraDesincriptado)
+			print("La palabra desincriptada es: " + palabraDesincriptado + "\n")
 
 			input("Presione una tecla para continuar ... .. . \n")
+
+			os.system ("clear")
+
+			archivo = input("\n Desea escribir un archivo con le resultado (Si = 1 | No = 0): ")
+
+			if (archivo == '1'):
+				escribirSalida(palabra,palabraIncriptada,palabraDesincriptado,elapsed_time1,elapsed_time2)
+
+			input("Presione una tecla para continuar ... .. .")
 			os.system ("clear")
 
 		if (opcion == '2'):
@@ -562,7 +721,7 @@ def menu():
 			os.system ("clear")
 
 			analisisDeTiempo()
-			#analisisDeAvalancha()
+			analisisDeAvalancha()
 
 			input("Presione una tecla para continuar ... .. . \n")
 		
@@ -571,7 +730,6 @@ def menu():
 			os.system ("clear")
 			print(" Exportando los resultados a un archivo plano. ")
 			nombre = input("Ingrese el nombre del archivo: ")
-
 
 		if(opcion == '4'):
 
