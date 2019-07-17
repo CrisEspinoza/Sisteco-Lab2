@@ -1,9 +1,0 @@
-*********************************************
-
-La palabra a inscriptar es: hola
-
-La palabra inscriptada es: y~}p
-
-La palabra al desincriptar es: hola 
-
-*********************************************
