@@ -3,6 +3,10 @@ import getopt
 from funcionesAuxiliares import validarParametros
 from funciones import orquestador
 
+# Entrada: -
+# Procedimiento: Se encarga de tomar los parametros de entrada y poder hacer el llamado a la función que comienza el flujo del programa
+# Salida: -
+
 def main():
     
     palabra = ''

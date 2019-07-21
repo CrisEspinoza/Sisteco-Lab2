@@ -1,0 +1,14 @@
+Pasos para ejecutar el programa:
+
+
+* Para ejecutar el programa se tiene que realizar los siguientes pasos: 
+
+	1. Se debe colocar la siguiente linea de comando:
+		python3 script.py -w [palabra] -b [bits por bloque] -r [cantidad de rondas] -c [clave]
+			En donde se tiene que:
+				* [Palabra] => Es la palabra que se quiere incriptar (Mensaje).
+				* [bits por bloque] => Cantidad de bits que se tiene por bloque.
+				* [Cantidad de rondas] => La cantidad de rondas que se desea realizar.
+				* [Clave] => La clave con la cual se quiere cifrar el mensaje a enviar.
+
+* Se debe tener en cuenta que el archivo y los graficos que se generar son guardados en la carpeta que tiene como nombre "Salida".

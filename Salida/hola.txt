@@ -1,0 +1,11 @@
+*********************************************
+
+La palabra a crifrar es: hola
+
+La palabra crifrar es: Y^]P
+El tiempo ocupado fue de: 0.00010895729064941406
+
+La palabra al decifrar es: hola 
+El tiempo ocupado fue de: 5.5789947509765625e-05
+
+*********************************************

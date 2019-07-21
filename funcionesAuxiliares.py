@@ -4,16 +4,16 @@ import os
 
 	# Funciones auxiliares:
 
-# Entrada:
-# Procedimiento:
-# Salida: 
+# Entrada: Entero a ver su numero a ver su potencia de dos.
+# Procedimiento: Se encarga de realizar la potencia de dos.
+# Salida: Entrega el numero elevado a su potencia de dos.
 
 def potenciaDeDos(num):
 	return 2 ** num
 
-# Entrada:
-# Procedimiento:
-# Salida: 
+# Entrada: Entra el caracter y la cantidad de numeros que se desea llegar.
+# Procedimiento: Se encarga de aumentar los bits del caracter ingresado, hasta la cantidad de numero que se solicita.
+# Salida: Entrega el nuevo caracter con los bits correspodientes agregados.
 
 def llenarBits(caracter,numLlenado):
 
@@ -21,9 +21,9 @@ def llenarBits(caracter,numLlenado):
 		caracter = '0' + caracter
 	return caracter
 
-# Entrada:
-# Procedimiento:
-# Salida: 
+# Entrada: Entra el caracter y la cantidad de numeros que se desea llegar.
+# Procedimiento: Se encarga de aumentar los bits del caracter ingresado, hasta la cantidad de numero que se solicita.
+# Salida: Entrega el nuevo caracter con los bits correspodientes agregados hacia la derecha.
 
 def llenarBitsDerecha(caracter,numLlenado):
 
@@ -31,9 +31,9 @@ def llenarBitsDerecha(caracter,numLlenado):
 		caracter = caracter + '0' 
 	return caracter
 
-# Entrada:
-# Procedimiento:
-# Salida: 
+# Entrada: Entra la palabra a convertir.
+# Procedimiento: Se encarga de entregar la palabra ingresdo en formato de bits.
+# Salida: Entrega la cadena de bits que describe a la palabra que se ingreso como parametro.
 
 def binario(palabra):
 
@@ -44,18 +44,18 @@ def binario(palabra):
 		texto = texto + aux
 	return texto
 
-# Entrada:
-# Procedimiento:
-# Salida: 
+# Entrada: Entran dos caracteres a ser operados.
+# Procedimiento: Se encarga de realizar la operacion xor a los dos parametros ingresados.
+# Salida: Entrega la salida luego de realizar la operación.
 
 def funcionXor (aux1, aux2):
 
 	result = ''.join('0' if i == j else '1' for i, j in zip(aux1,aux2))
 	return result
 
-# Entrada:
-# Procedimiento:
-# Salida: 
+# Entrada: Entra el numero y el largo que se desea tener.
+# Procedimiento: Se encarga de entregar en formato de binario al numero ingresado segun el largo que se ingresa por parametro.
+# Salida: Entrega el valor numerico obtenido luego de realizar la operación.
 
 def numToBin (numero,largo):
 
@@ -63,9 +63,9 @@ def numToBin (numero,largo):
 	binario = llenarBits(binario,largo)
 	return binario
 
-# Entrada:
-# Procedimiento:
-# Salida: 
+# Entrada: Entra los bloques que contiene los bits de las palabras.
+# Procedimiento: Se encarga de ir codificando los bloques, primero une de 8 en 8 y luego va decodifcando a que letra corresponde.
+# Salida: Entrega el los bits ingresados en formato de texto, que corresponde al mensaje enviado por el emisor.
 
 def decodificar(bloques):
 
@@ -81,9 +81,10 @@ def decodificar(bloques):
 		contador = contador + 8
 	return textoFinal
 
-# Entrada:
-# Procedimiento:
-# Salida: 
+# Entrada: Ingresa la palabra y la cantidad ed bits que contiene cada bloque.
+# Procedimiento: Se realiza la separación de las palabras por la cantidad de bloques correspondientes a cada uno, tener en cuenta que si faltan datos 
+#				se colocan adionales hacia el lado faltante de bits.
+# Salida: Se entrega la salida correspondientes a los blqoues formados segun la cantidad de palabra que contenia el mensaje.
 
 def separarPalabrasPorBloque(palabraBinario, cantXBloque):
 	
@@ -101,9 +102,9 @@ def separarPalabrasPorBloque(palabraBinario, cantXBloque):
 	
 	# Funcion F():
 
-# Entrada:
-# Procedimiento:
-# Salida: 
+# Entrada: Entra el bloque derecho y la clave
+# Procedimiento: Se realiza el procedimiento que corresponde a la funcion F.
+# Salida:  Entrega el reultado luego de haber realizado el procedimiento de la función F.
 
 def aplicarClave(bloqueDerecho,key):
 
@@ -111,9 +112,9 @@ def aplicarClave(bloqueDerecho,key):
 	resul = (key + (key * len(bloqueDerecho))) % len(bloqueDerecho)
 	return resul
 
-# Entrada:
-# Procedimiento:
-# Salida: 
+# Entrada: Cantidad de bits por bloque
+# Procedimiento: Se encarga de verificar si la cantidad ingresada es potencia de dos.
+# Salida:  Entrega un valor booleano en caso que cumpla o no con la condicion mencionada.
 
 def verificarPotenciaDeDos(cantXBloque):
 
@@ -122,9 +123,9 @@ def verificarPotenciaDeDos(cantXBloque):
 			return True
 	return False
 
-# Entrada:
-# Procedimiento:
-# Salida: 
+# Entrada: Entran los parametros de entrada.
+# Procedimiento: Se encarga de verificar si los parametros cumplen con la condiciones necesarias para poder ser un parametro de entrada.
+# Salida: Se encarga de entregar un valor booelano, si cumple con las condiciones necesarias.
 
 def validarParametros(palabra,cantXBloque,rondas,key):
 
@@ -146,9 +147,9 @@ def validarParametros(palabra,cantXBloque,rondas,key):
 		#print("\n Caracteres numericos en la palabra \n")
 		return False
 
-# Entrada:
-# Procedimiento:
-# Salida: 
+# Entrada: Ingresa un valor numerico
+# Procedimiento: Se encarga de limitar dicho decimal a la cantidad de 5 decimales.
+# Salida:  Se encarga de entregar el valor con la cantidad de decimales correspondientes.
 	
 def limitarDecimal(x):
 
@@ -158,9 +159,9 @@ def limitarDecimal(x):
 		contador = contador + 1
 	return x
 
-# Entrada:
-# Procedimiento:
-# Salida: 
+# Entrada: Entran los parametros que se van a escribir en el archivo.
+# Procedimiento: Se encarga de generar el archivo y escribir los parametros correspondientes
+# Salida: Entrega el archivo de salida con los parametros ingresados.
 
 def escribirSalida(palabra, palabraIncriptada,palabraDesincriptado,time1,time2):
 
@@ -182,9 +183,9 @@ def escribirSalida(palabra, palabraIncriptada,palabraDesincriptado,time1,time2):
 
 	#print("\n Archivo creado con exito \n ")
 
-# Entrada:
-# Procedimiento:
-# Salida: 
+# Entrada: Entran dos lista de bits.
+# Procedimiento: Se calcula la difrerencia que contiene las listas ingresadas.
+# Salida: Entrega el numero de diferencia que contienen las listas.
 
 def calcularDiferencia(listaBase, listaGenerada):
 
@@ -201,9 +202,9 @@ def calcularDiferencia(listaBase, listaGenerada):
 	print("La diferencia agregar es: " + str(auxDiferencia))
 	return auxDiferencia
 
-# Entrada:
-# Procedimiento:
-# Salida: 
+# Entrada: Parametros necesaios para poder realizar el grafico.
+# Procedimiento: Se encarga de realizar el grafico en conjunto y individual.
+# Salida:  Entrega el grafico y su guardado del mismo.
 
 def grafico(titulo1, titulo2, ejeY , ejeX1, ejeX2, nombreY, nombreX, imagen) :
 
@@ -222,9 +223,9 @@ def grafico(titulo1, titulo2, ejeY , ejeX1, ejeX2, nombreY, nombreX, imagen) :
 	plt.savefig(os.getcwd() + imagen + ".png")
 	#plt.show() 
 
-# Entrada:
-# Procedimiento:
-# Salida: 
+# Entrada: Parametros necesaios para poder realizar el grafico.
+# Procedimiento: Se encarga de realizar el grafico individual.
+# Salida:  Entrega el grafico y su guardado del mismo. 
 
 def graficoTiempo(titulo,x,y,xlabel,ylabel,imagen):
 
@@ -238,9 +239,9 @@ def graficoTiempo(titulo,x,y,xlabel,ylabel,imagen):
 	plt.savefig(os.getcwd() + imagen)
 
 
-# Entrada:
-# Procedimiento:
-# Salida: 
+# Entrada: Parametros necesaios para poder realizar el grafico.
+# Procedimiento: Se encarga de realizar el grafico individual.
+# Salida:  Entrega el grafico y su guardado del mismo. 
 
 def graficoTiempoIndividual(titulo,x,y,xlabel,ylabel,imagen):
 
@@ -255,9 +256,9 @@ def graficoTiempoIndividual(titulo,x,y,xlabel,ylabel,imagen):
 	plt.savefig(os.getcwd() + imagen)
 
 
-# Entrada:
-# Procedimiento:
-# Salida: 
+# Entrada: Parametros necesaios para poder realizar el grafico.
+# Procedimiento: Se encarga de realizar el grafico individual.
+# Salida:  Entrega el grafico y su guardado del mismo. 
 
 def graficoAvalancha(titulo,x,y,xlabel,ylabel,imagen):
 
